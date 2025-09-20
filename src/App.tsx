@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { LoginPage } from "./components/LoginPage";
 import { NotificationProvider } from "./contexts/NotificationContext";
+import RiskPredictorPage from "./pages/RiskPredictorPage";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index currentUser={currentUser} onLogout={handleLogout} />} />
+              <Route path="/risk-predictor" element={<RiskPredictorPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

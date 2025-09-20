@@ -6,8 +6,10 @@ import {
   ExclamationTriangleIcon,
   ChevronDownIcon,
   SignalIcon,
-  WifiIcon
+  WifiIcon,
+  ChartBarIcon
 } from '@heroicons/react/24/outline';
+import { Link } from 'react-router-dom';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -36,7 +38,7 @@ export const Taskbar = ({ activeSection, onSectionChange }: TaskbarProps) => {
     },
     {
       id: 'map',
-      label: 'MAPS',
+      label: 'Maps',
       icon: MapIcon,
       description: 'Interactive battlefield mapping',
       color: 'text-green-400',
@@ -60,6 +62,15 @@ export const Taskbar = ({ activeSection, onSectionChange }: TaskbarProps) => {
       color: 'text-red-400',
       status: 'critical',
       alerts: 5
+    },
+    {
+      id: 'risk-predictor',
+      label: 'Risk Predictor',
+      icon: ChartBarIcon,
+      description: 'Calculate and predict risk levels',
+      color: 'text-purple-400',
+      status: 'online',
+      alerts: 0
     }
   ];
 
@@ -93,7 +104,13 @@ export const Taskbar = ({ activeSection, onSectionChange }: TaskbarProps) => {
                         isActive && "bg-primary/10 text-primary border-b-2 border-primary",
                         !isActive && "text-muted-foreground"
                       )}
-                      onClick={() => onSectionChange(section.id)}
+                      onClick={() => {
+                        if (section.id === 'risk-predictor') {
+                          // Don't use onSectionChange for risk-predictor
+                          return;
+                        }
+                        onSectionChange(section.id);
+                      }}
                     >
                       <div className="flex items-center space-x-2">
                         <div className="relative">
@@ -104,7 +121,13 @@ export const Taskbar = ({ activeSection, onSectionChange }: TaskbarProps) => {
                             getStatusColor(section.status)
                           )} />
                         </div>
-                        <span>{section.label}</span>
+                        {section.id === 'risk-predictor' ? (
+                          <Link to="/risk-predictor" className="hover:text-primary">
+                            {section.label}
+                          </Link>
+                        ) : (
+                          <span>{section.label}</span>
+                        )}
                         {section.alerts > 0 && (
                           <div className="bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
                             {section.alerts}
@@ -143,12 +166,18 @@ export const Taskbar = ({ activeSection, onSectionChange }: TaskbarProps) => {
                             </div>
                           )}
                           <div className="pt-2 space-y-2">
-                            <button
-                              className="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors bg-primary/5 border border-primary/20"
-                              onClick={() => onSectionChange(section.id)}
-                            >
-                              Open {section.label}
-                            </button>
+                            {section.id === 'risk-predictor' ? (
+                              <Link to="/risk-predictor" className="block w-full text-left px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors bg-primary/5 border border-primary/20">
+                                Open {section.label}
+                              </Link>
+                            ) : (
+                              <button
+                                className="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors bg-primary/5 border border-primary/20"
+                                onClick={() => onSectionChange(section.id)}
+                              >
+                                Open {section.label}
+                              </button>
+                            )}
                             <button
                               className="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors"
                             >
