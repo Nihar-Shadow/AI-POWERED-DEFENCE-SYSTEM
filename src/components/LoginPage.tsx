@@ -83,10 +83,6 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
     setPassword('rakshak2024');
   };
 
-  useEffect(() => {
-    handleDemoLogin();
-  }, []);
-
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Image Background */}
